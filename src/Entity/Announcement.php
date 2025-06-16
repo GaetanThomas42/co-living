@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
 use App\Repository\AnnouncementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,7 +19,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(normalizationContext: ['groups' => ['announcement:read']]),
-        new GetCollection(normalizationContext: ['groups' => ['announcement:read:item']]),
+        new Get(normalizationContext: ['groups' => ['announcement:read:item']]),
         new Post(
             normalizationContext: ['groups' => ['announcement:read:item']],
             denormalizationContext: ['groups' => ['announcement:write']]

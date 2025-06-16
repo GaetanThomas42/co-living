@@ -1,6 +1,9 @@
 api_platform:
     title: Co-living API
     version: 0.0.1
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
     defaults:
         stateless: true
         cache_headers:
