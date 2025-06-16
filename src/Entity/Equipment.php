@@ -35,15 +35,15 @@ class Equipment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['equipment:read', 'equipment:read:item', 'announcement:read:item'])]
+    #[Groups(['equipment:read', 'equipment:read:item', 'announcement:read:item','announcement:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['equipment:read', 'equipment:read:item', 'equipment:write', 'announcement:read:item'])]
+    #[Groups(['equipment:read', 'equipment:read:item', 'equipment:write', 'announcement:read:item','announcement:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    #[Groups(['equipment:read:item', 'equipment:write', 'announcement:read:item'])]
+    #[Groups(['equipment:read:item', 'equipment:write', 'announcement:read:item','announcement:read'])]
     private ?string $description = null;
 
     /**

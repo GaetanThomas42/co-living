@@ -35,15 +35,15 @@ class Service
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['service:read', 'service:read:item', 'announcement:read:item'])]
+    #[Groups(['service:read', 'service:read:item', 'announcement:read:item','announcement:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['service:read', 'service:read:item', 'service:write', 'announcement:read:item'])]
+    #[Groups(['service:read', 'service:read:item', 'service:write', 'announcement:read:item','announcement:read'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 500, nullable: true)]
-    #[Groups(['service:read:item', 'service:write', 'announcement:read:item'])]
+    #[Groups(['service:read:item', 'service:write', 'announcement:read:item','announcement:read'])]
     private ?string $description = null;
 
     /**
@@ -52,6 +52,7 @@ class Service
     #[ORM\ManyToMany(targetEntity: Announcement::class, inversedBy: 'services')]
     #[Groups(['service:read:item'])]
     private Collection $announcement;
+    
     public function __construct()
     {
         $this->announcement = new ArrayCollection();

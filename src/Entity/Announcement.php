@@ -48,28 +48,28 @@ class Announcement
     private ?string $description = null;
 
     #[ORM\Column(length: 2000)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
     private ?string $fullAddress = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
     private ?string $zipcode = null;
 
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read' ,'announcement:write'])]
     private ?string $lattitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read:item','announcement:read', 'announcement:write'])]
     private ?string $longitude = null;
 
     #[ORM\Column]
@@ -102,7 +102,7 @@ class Announcement
      * @var Collection<int, Equipment>
      */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'announcement')]
-    #[Groups(['announcement:read:item','announcement:read:item'])]
+    #[Groups(['announcement:read','announcement:read:item'])]
     private Collection $equipment;
 
     /**
