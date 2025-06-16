@@ -36,56 +36,56 @@ class Announcement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item','reservation:read', 'reservation:read:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 500)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 2000)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $fullAddress = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write'])]
+    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $zipcode = null;
 
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item', 'announcement:read' ,'announcement:write'])]
-    private ?string $lattitude = null;
+    #[Groups(['announcement:read:item', 'announcement:read' ,'announcement:write','reservation:read', 'reservation:read:item'])]
+    private ?float $lattitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item','announcement:read', 'announcement:write'])]
-    private ?string $longitude = null;
+    #[Groups(['announcement:read:item','announcement:read', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    private ?float $longitude = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
     private ?int $maxClient = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
     private ?float $dailyPrice = null;
 
     #[ORM\Column(length: 500)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
     private ?string $imageCover = null;
 
     #[ORM\ManyToOne(inversedBy: 'announcements', targetEntity: User::class)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','announcement:read','reservation:read', 'reservation:read:item'])]
     private ?User $owner = null;
 
     /**

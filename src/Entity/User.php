@@ -17,21 +17,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(security: "is_granted('ROLE_USER')")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['user:read'])]
     private array $roles = [];
 
     /**
@@ -42,29 +43,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $billingAddress = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    // #[Groups([])]
     private ?bool $isVerified = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    // #[Groups([])]
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * @var Collection<int, Message>
      */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'receiver',orphanRemoval: true)]
+    // #[Groups([])]
     private Collection $receivedMessages;
 
     /**

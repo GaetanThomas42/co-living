@@ -3,35 +3,54 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => ['reservation:read']]),
+        new Get(normalizationContext: ['groups' => ['reservation:read:item']]),
+        new Post(
+            normalizationContext: ['groups' => ['reservation:read:item']],
+            denormalizationContext: ['groups' => ['reservation:write']]
+        ),
+        new Put(
+            normalizationContext: ['groups' => ['reservation:read:item']],
+            denormalizationContext: ['groups' => ['reservation:write']]
+        ),
+        new Delete()
+    ]
+)]
 class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','announcement:read','reservation:read','reservation:read:item'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
     private ?string $totalAmount = null;
 
     #[ORM\Column]
@@ -40,11 +59,12 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations',targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
     private ?User $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reservation:read:item','reservation:read'])]
     private ?Announcement $announcement = null;
 
     public function getId(): ?int
