@@ -76,6 +76,10 @@ class Announcement
     #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
     private ?int $maxClient = null;
 
+    #[ORM\Column]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
+    private ?float $dailyPrice = null;
+
     #[ORM\Column(length: 500)]
     #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
     private ?string $imageCover = null;
@@ -133,6 +137,18 @@ class Announcement
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+     public function getDailyPrice(): ?string
+    {
+        return $this->dailyPrice;
+    }
+
+    public function setDailyPrice(string $dailyPrice): static
+    {
+        $this->dailyPrice = $dailyPrice;
 
         return $this;
     }
