@@ -47,9 +47,22 @@ class Announcement
     #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write'])]
     private ?string $description = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 2000)]
     #[Groups(['announcement:read:item', 'announcement:write'])]
     private ?string $fullAddress = null;
+
+    #[ORM\Column(length: 150)]
+    #[Groups(['announcement:read:item', 'announcement:write'])]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 150)]
+    #[Groups(['announcement:read:item', 'announcement:write'])]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 150)]
+    #[Groups(['announcement:read:item', 'announcement:write'])]
+    private ?string $zipcode = null;
+
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
     #[Groups(['announcement:read:item', 'announcement:write'])]
@@ -75,21 +88,21 @@ class Announcement
      * @var Collection<int, Image>
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'announcement', orphanRemoval: true)]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','announcement:read'])]
     private Collection $images;
 
     /**
      * @var Collection<int, Service>
      */
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'announcement')]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','announcement:read'])]
     private Collection $services;
 
     /**
      * @var Collection<int, Equipment>
      */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'announcement')]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['announcement:read:item','announcement:read:item'])]
     private Collection $equipment;
 
     /**
@@ -120,6 +133,42 @@ class Announcement
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+        public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): static
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+        public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+        public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(string $zipcode): static
+    {
+        $this->zipcode = $zipcode;
 
         return $this;
     }

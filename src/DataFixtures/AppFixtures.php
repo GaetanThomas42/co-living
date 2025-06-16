@@ -70,7 +70,7 @@ class AppFixtures extends Fixture
         foreach ($equipmentData as $data) {
             $equipment = new Equipment();
             $equipment->setTitle($data['title'])
-                     ->setDescription($data['description']);
+                ->setDescription($data['description']);
             $manager->persist($equipment);
             $equipments[] = $equipment;
         }
@@ -103,7 +103,7 @@ class AppFixtures extends Fixture
         foreach ($serviceData as $data) {
             $service = new Service();
             $service->setTitle($data['title'])
-                   ->setDescription($data['description']);
+                ->setDescription($data['description']);
             $manager->persist($service);
             $services[] = $service;
         }
@@ -115,14 +115,14 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 2; $i++) {
             $admin = new User();
             $admin->setEmail("admin$i@example.com")
-                  ->setRoles(['ROLE_ADMIN'])
-                  ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
-                  ->setName($faker->lastName())
-                  ->setFirstName($faker->firstName())
-                  ->setBillingAddress($faker->address())
-                  ->setIsVerified(true)
-                  ->setCreatedAt(new DateTimeImmutable())
-                  ->setBirthDate($faker->dateTimeBetween('-60 years', '-25 years'));
+                ->setRoles(['ROLE_ADMIN'])
+                ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
+                ->setName($faker->lastName())
+                ->setFirstName($faker->firstName())
+                ->setBillingAddress($faker->address())
+                ->setIsVerified(true)
+                ->setCreatedAt(new DateTimeImmutable())
+                ->setBirthDate($faker->dateTimeBetween('-60 years', '-25 years'));
             $manager->persist($admin);
         }
 
@@ -130,14 +130,14 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 3; $i++) {
             $employee = new User();
             $employee->setEmail("employee$i@example.com")
-                    ->setRoles(['ROLE_EMPLOYEE'])
-                    ->setPassword($this->passwordHasher->hashPassword($employee, 'password'))
-                    ->setName($faker->lastName())
-                    ->setFirstName($faker->firstName())
-                    ->setBillingAddress($faker->address())
-                    ->setIsVerified(true)
-                    ->setCreatedAt(new DateTimeImmutable())
-                    ->setBirthDate($faker->dateTimeBetween('-50 years', '-22 years'));
+                ->setRoles(['ROLE_EMPLOYEE'])
+                ->setPassword($this->passwordHasher->hashPassword($employee, 'password'))
+                ->setName($faker->lastName())
+                ->setFirstName($faker->firstName())
+                ->setBillingAddress($faker->address())
+                ->setIsVerified(true)
+                ->setCreatedAt(new DateTimeImmutable())
+                ->setBirthDate($faker->dateTimeBetween('-50 years', '-22 years'));
             $manager->persist($employee);
         }
 
@@ -146,14 +146,14 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 8; $i++) {
             $owner = new User();
             $owner->setEmail("owner$i@example.com")
-                  ->setRoles(['ROLE_OWNER'])
-                  ->setPassword($this->passwordHasher->hashPassword($owner, 'password'))
-                  ->setName($faker->lastName())
-                  ->setFirstName($faker->firstName())
-                  ->setBillingAddress($faker->address())
-                  ->setIsVerified($faker->boolean(90)) // 90% verified
-                  ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', '-1 month')))
-                  ->setBirthDate($faker->dateTimeBetween('-65 years', '-25 years'));
+                ->setRoles(['ROLE_OWNER'])
+                ->setPassword($this->passwordHasher->hashPassword($owner, 'password'))
+                ->setName($faker->lastName())
+                ->setFirstName($faker->firstName())
+                ->setBillingAddress($faker->address())
+                ->setIsVerified($faker->boolean(90)) // 90% verified
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-2 years', '-1 month')))
+                ->setBirthDate($faker->dateTimeBetween('-65 years', '-25 years'));
             $manager->persist($owner);
             $owners[] = $owner;
         }
@@ -163,14 +163,14 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 15; $i++) {
             $client = new User();
             $client->setEmail("client$i@example.com")
-                   ->setRoles(['ROLE_CLIENT'])
-                   ->setPassword($this->passwordHasher->hashPassword($client, 'password'))
-                   ->setName($faker->lastName())
-                   ->setFirstName($faker->firstName())
-                   ->setBillingAddress($faker->address())
-                   ->setIsVerified($faker->boolean(85)) // 85% verified
-                   ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-18 months', '-1 week')))
-                   ->setBirthDate($faker->dateTimeBetween('-70 years', '-18 years'));
+                ->setRoles(['ROLE_CLIENT'])
+                ->setPassword($this->passwordHasher->hashPassword($client, 'password'))
+                ->setName($faker->lastName())
+                ->setFirstName($faker->firstName())
+                ->setBillingAddress($faker->address())
+                ->setIsVerified($faker->boolean(85)) // 85% verified
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-18 months', '-1 week')))
+                ->setBirthDate($faker->dateTimeBetween('-70 years', '-18 years'));
             $manager->persist($client);
             $clients[] = $client;
         }
@@ -186,7 +186,7 @@ class AppFixtures extends Fixture
             'Appartement cosy proche métro',
             'F3 rénové dans résidence calme',
             'Grand appartement familial avec balcon',
-            
+
             // Maisons
             'Maison de charme avec jardin privatif',
             'Villa moderne avec piscine chauffée',
@@ -197,7 +197,7 @@ class AppFixtures extends Fixture
             'Longère bretonne typique',
             'Mas provençal avec oliveraie',
             'Fermette restaurée cadre bucolique',
-            
+
             // Logements spécialisés
             'Gîte rural au cœur de la nature',
             'Chambre d\'hôtes de luxe',
@@ -207,7 +207,7 @@ class AppFixtures extends Fixture
             'Péniche aménagée sur la Seine',
             'Château privatisable pour groupes',
             'Domaine viticole avec dégustation',
-            
+
             // Logements thématiques
             'Loft d\'artiste atypique',
             'Appartement vintage années 70',
@@ -219,8 +219,15 @@ class AppFixtures extends Fixture
         ];
 
         $locationTypes = [
-            'Centre-ville', 'Quartier historique', 'Zone commerciale', 'Quartier résidentiel',
-            'Bord de mer', 'Montagne', 'Campagne', 'Périphérie', 'Zone touristique'
+            'Centre-ville',
+            'Quartier historique',
+            'Zone commerciale',
+            'Quartier résidentiel',
+            'Bord de mer',
+            'Montagne',
+            'Campagne',
+            'Périphérie',
+            'Zone touristique'
         ];
 
         $announcements = [];
@@ -230,27 +237,30 @@ class AppFixtures extends Fixture
                 $ann = new Announcement();
                 $title = $faker->randomElement($announcementTitles);
                 $locationType = $faker->randomElement($locationTypes);
-                
+
                 // Description réaliste selon le type de logement
                 $descriptions = [
                     "Magnifique logement situé en $locationType, parfait pour un séjour de détente. Récemment rénové avec goût, il allie confort moderne et charme authentique. L'espace de vie lumineux et spacieux offre une atmosphère chaleureuse. La cuisine entièrement équipée permet de préparer vos repas en toute convenance.",
-                    
+
                     "Découvrez ce superbe hébergement en $locationType, idéal pour explorer la région. Le logement dispose de tous les équipements nécessaires pour un séjour réussi. L'aménagement soigné et la décoration raffinée créent une ambiance unique. Profitez des espaces extérieurs pour vous détendre après vos visites.",
-                    
+
                     "Séjournez dans ce charmant logement en $locationType, conçu pour votre bien-être. Les pièces spacieuses et lumineuses offrent un cadre de vie agréable. La literie de qualité garantit des nuits reposantes. L'emplacement privilégié vous permet d'accéder facilement aux attractions locales.",
-                    
+
                     "Vivez une expérience unique dans ce logement d'exception en $locationType. Chaque détail a été pensé pour votre confort et votre plaisir. Les équipements haut de gamme et les services inclus font de ce lieu un véritable cocon. L'environnement paisible est parfait pour se ressourcer.",
                 ];
 
                 // Image de couverture selon le type de logement
                 $coverImageUrl = $this->getCoverImage($title);
-                
+
                 $ann->setOwner($owner)
                     ->setTitle($title)
                     ->setDescription($faker->randomElement($descriptions))
                     ->setFullAddress($faker->address())
-                    ->setLattitude($faker->latitude(41, 51)) // France approximativement
-                    ->setLongitude($faker->longitude(-5, 9))  // France approximativement
+                    ->setAddress($faker->address())    
+                    ->setCity($faker->city())          
+                    ->setZipcode($faker->postcode())
+                    ->setLattitude($faker->latitude(41, 51)) 
+                    ->setLongitude($faker->longitude(-5, 9)) 
                     ->setMaxClient(rand(1, 8))
                     ->setImageCover($coverImageUrl);
 
@@ -284,23 +294,23 @@ class AppFixtures extends Fixture
 
         // ===== RESERVATIONS =====
         $reservationStatuses = ['pending', 'accepted', 'rejected', 'cancelled', 'completed'];
-        
+
         foreach ($clients as $client) {
             // Nombre variable de réservations par client
             $nbReservations = $faker->numberBetween(0, 4);
-            
+
             for ($i = 0; $i < $nbReservations; $i++) {
                 $announcement = $faker->randomElement($announcements);
-                
+
                 // Dates réalistes
                 $start = $faker->dateTimeBetween('-6 months', '+3 months');
                 $duration = rand(2, 14); // Entre 2 et 14 jours
                 $end = (clone $start)->modify("+$duration days");
-                
+
                 // Prix réaliste basé sur la durée
                 $pricePerNight = rand(50, 300);
                 $totalAmount = $pricePerNight * $duration;
-                
+
                 // Statut logique selon la date
                 $now = new \DateTime();
                 if ($start < $now && $end < $now) {
@@ -319,7 +329,7 @@ class AppFixtures extends Fixture
                     ->setStatus($status)
                     ->setTotalAmount($totalAmount)
                     ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-6 months', 'now')));
-                    
+
                 $manager->persist($res);
             }
         }
