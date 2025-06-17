@@ -76,12 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $sendMessages;
 
     /**
-     * @var Collection<int, Annoncement>
-     */
-    #[ORM\OneToMany(targetEntity: Announcement::class, mappedBy: 'owner')]
-    private Collection $annoncements;
-
-    /**
      * @var Collection<int, Reservation>
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'client')]
@@ -100,7 +94,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->receivedMessages = new ArrayCollection();
         $this->sendMessages = new ArrayCollection();
-        $this->annoncements = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->announcements = new ArrayCollection();
     }
@@ -298,13 +291,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Annoncement>
-     */
-    public function getAnnoncements(): Collection
-    {
-        return $this->annoncements;
-    }
+
 
     /**
      * @return Collection<int, Reservation>
