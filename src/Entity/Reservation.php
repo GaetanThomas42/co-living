@@ -9,6 +9,9 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Put;
 use App\Repository\ReservationRepository;
+use App\Entity\UnavailableTimeSlot;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -34,38 +37,49 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'reservation:read', 'reservation:read:item'])]
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item','announcement:read','reservation:read','reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'reservation:read', 'reservation:read:item'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'reservation:read', 'reservation:read:item'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'reservation:read', 'reservation:read:item'])]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
-    #[Groups(['announcement:read:item','reservation:read','reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'reservation:read', 'reservation:read:item'])]
     private ?string $totalAmount = null;
 
     #[ORM\Column]
     #[Groups(['announcement:read:item'])]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations',targetEntity: User::class)]
+    #[ORM\ManyToOne(inversedBy: 'reservations', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
+    #[Groups(['announcement:read:item', 'reservation:read:item', 'reservation:read'])]
     private ?User $client = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation:read:item','reservation:read'])]
+    #[Groups(['reservation:read:item', 'reservation:read'])]
     private ?Announcement $announcement = null;
+
+    /**
+     * @var Collection<int, UnavailableTimeSlot>
+     */
+    #[ORM\OneToMany(mappedBy: 'Unavailableslots', targetEntity: UnavailableTimeSlot::class, cascade: ['persist', 'remove'])]
+    private Collection $unavailabletimeslots;
+
+    public function __construct()
+    {
+        $this->unavailabletimeslots = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -152,6 +166,35 @@ class Reservation
     public function setAnnouncement(?Announcement $announcement): static
     {
         $this->announcement = $announcement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UnavailableTimeSlot>
+     */
+    public function getUnavailabletimeslots(): Collection
+    {
+        return $this->unavailabletimeslots;
+    }
+
+    public function addUnavailabletimeslot(UnavailableTimeSlot $unavailabletimeslot): static
+    {
+        if (!$this->unavailabletimeslots->contains($unavailabletimeslot)) {
+            $this->unavailabletimeslots->add($unavailabletimeslot);
+            $unavailabletimeslot->setUnavailableslots($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnavailabletimeslot(UnavailableTimeSlot $unavailabletimeslot): static
+    {
+        if ($this->unavailabletimeslots->removeElement($unavailabletimeslot)) {
+            if ($unavailabletimeslot->getUnavailableslots() === $this) {
+                $unavailabletimeslot->setUnavailableslots(null);
+            }
+        }
 
         return $this;
     }

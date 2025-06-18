@@ -36,77 +36,73 @@ class Announcement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'reservation:read', 'reservation:read:item'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 500)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $description = null;
 
-    #[ORM\Column(length: 2000)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
-    private ?string $fullAddress = null;
-
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['announcement:read:item', 'announcement:read','announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $zipcode = null;
 
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item', 'announcement:read' ,'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?float $lattitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6)]
-    #[Groups(['announcement:read:item','announcement:read', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?float $longitude = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?int $maxClient = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?float $dailyPrice = null;
 
     #[ORM\Column(length: 500)]
-    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item', 'announcement:write', 'reservation:read', 'reservation:read:item'])]
     private ?string $imageCover = null;
 
     #[ORM\ManyToOne(inversedBy: 'announcements', targetEntity: User::class)]
-    #[Groups(['announcement:read:item','announcement:read','reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'reservation:read', 'reservation:read:item'])]
     private ?User $owner = null;
 
     /**
      * @var Collection<int, Image>
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'announcement', orphanRemoval: true)]
-    #[Groups(['announcement:read:item','announcement:read'])]
+    #[Groups(['announcement:read:item', 'announcement:read'])]
     private Collection $images;
 
     /**
      * @var Collection<int, Service>
      */
     #[ORM\ManyToMany(targetEntity: Service::class, mappedBy: 'announcement')]
-    #[Groups(['announcement:read:item','announcement:read'])]
+    #[Groups(['announcement:read:item', 'announcement:read'])]
     private Collection $services;
 
     /**
      * @var Collection<int, Equipment>
      */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'announcement')]
-    #[Groups(['announcement:read','announcement:read:item'])]
+    #[Groups(['announcement:read', 'announcement:read:item'])]
     private Collection $equipment;
 
     /**
@@ -141,7 +137,7 @@ class Announcement
         return $this;
     }
 
-     public function getDailyPrice(): ?string
+    public function getDailyPrice(): ?string
     {
         return $this->dailyPrice;
     }
@@ -153,7 +149,7 @@ class Announcement
         return $this;
     }
 
-        public function getAddress(): ?string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
@@ -165,7 +161,7 @@ class Announcement
         return $this;
     }
 
-        public function getCity(): ?string
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -177,7 +173,7 @@ class Announcement
         return $this;
     }
 
-        public function getZipcode(): ?string
+    public function getZipcode(): ?string
     {
         return $this->zipcode;
     }
@@ -197,18 +193,6 @@ class Announcement
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getFullAddress(): ?string
-    {
-        return $this->fullAddress;
-    }
-
-    public function setFullAddress(string $fullAddress): static
-    {
-        $this->fullAddress = $fullAddress;
 
         return $this;
     }

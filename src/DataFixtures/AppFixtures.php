@@ -8,6 +8,7 @@ use App\Entity\Equipment;
 use App\Entity\Service;
 use App\Entity\Image;
 use App\Entity\Reservation;
+use App\Entity\Famouslocation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -26,6 +27,28 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
+
+        // ===== FAMOUS LOCATIONS =====
+        $famousCities = [
+            'Paris',
+            'Barcelone',
+            'Rome',
+            'Amsterdam',
+            'Lisbonne',
+            'Berlin',
+            'New York',
+            'Tokyo',
+            'Montréal',
+            'Istanbul'
+        ];
+
+        $famousLocations = [];
+        foreach ($famousCities as $city) {
+            $location = new Famouslocation();
+            $location->setCity($city);
+            $manager->persist($location);
+            $famousLocations[] = $location;
+        }
 
         // ===== EQUIPMENTS =====
         $equipmentData = [
@@ -255,13 +278,12 @@ class AppFixtures extends Fixture
                 $ann->setOwner($owner)
                     ->setTitle($title)
                     ->setDescription($faker->randomElement($descriptions))
-                    ->setFullAddress($faker->address())
-                    ->setAddress($faker->address())    
-                    ->setCity($faker->city())          
+                    ->setAddress($faker->address())
+                    ->setCity($faker->city())
                     ->setZipcode($faker->postcode())
-                    ->setLattitude($faker->latitude(41, 51)) 
-                    ->setLongitude($faker->longitude(-5, 9)) 
-                    ->setDailyPrice($faker->randomFloat(2,10,100))
+                    ->setLattitude($faker->latitude(41, 51))
+                    ->setLongitude($faker->longitude(-5, 9))
+                    ->setDailyPrice($faker->randomFloat(2, 10, 100))
                     ->setMaxClient(rand(1, 8))
                     ->setImageCover($coverImageUrl);
 
@@ -332,6 +354,32 @@ class AppFixtures extends Fixture
                     ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-6 months', 'now')));
 
                 $manager->persist($res);
+                // Créneaux d'indisponibilité
+                $nbSlots = rand(1, 3);
+                $slotReasons = [
+                    "Vacances du propriétaire",
+                    "Entretien du logement",
+                    "Nettoyage approfondi",
+                    "Inspection technique",
+                    "Période de repos sans réservation",
+                    "Indisponibilité temporaire",
+                    "Fermeture annuelle",
+                    "Travaux de rénovation",
+                    "Maintenance de la piscine",
+                    "Travaux de peinture intérieure"
+                ];
+                for ($j = 0; $j < $nbSlots; $j++) {
+                    $slotStart = (clone $end)->modify('+' . rand(1, 10) . ' days')->setTime(rand(8, 14), 0);
+                    $slotEnd = (clone $slotStart)->modify('+' . rand(2, 6) . ' hours');
+
+                    $slot = new \App\Entity\UnavailableTimeSlot();
+                    $slot->setStartDate($slotStart)
+                        ->setEndDate($slotEnd)
+                        ->setDescription($faker->randomElement($slotReasons))
+                        ->setUnavailableslots($res);
+
+                    $manager->persist($slot);
+                }
             }
         }
 
