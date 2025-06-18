@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Entity;
 
-use App\Repository\UnavailableTimeSlotRepository;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: UnavailableTimeSlot::class)]
 class UnavailableTimeSlot
 {

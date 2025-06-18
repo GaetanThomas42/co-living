@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\Famouslocation;
+use App\Entity\FamousLocation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Famouslocation>
  */
-class FamouslocationRepository extends ServiceEntityRepository
+class FamousLocationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Famouslocation::class);
+        parent::__construct($registry, FamousLocation::class);
     }
 
     //    /**

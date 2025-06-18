@@ -279,7 +279,7 @@ class AppFixtures extends Fixture
                     ->setTitle($title)
                     ->setDescription($faker->randomElement($descriptions))
                     ->setAddress($faker->address())
-                    ->setCity($faker->city())
+                    ->setCity($famousCities[mt_rand(0, count($famousCities) - 1)])
                     ->setZipcode($faker->postcode())
                     ->setLattitude($faker->latitude(41, 51))
                     ->setLongitude($faker->longitude(-5, 9))

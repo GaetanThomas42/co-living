@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\FamouslocationRepository;
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\FamousLocationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FamouslocationRepository::class)]
-class Famouslocation
+
+#[ORM\Entity(repositoryClass: FamousLocationRepository::class)]
+#[ApiResource()]
+class FamousLocation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
