@@ -261,7 +261,7 @@ class AppFixtures extends Fixture
                     ->setZipcode($faker->postcode())
                     ->setLattitude($faker->latitude(41, 51)) 
                     ->setLongitude($faker->longitude(-5, 9)) 
-                    ->setDailyPrice($faker->randomFloat(15,100))
+                    ->setDailyPrice($faker->randomFloat(2,10,100))
                     ->setMaxClient(rand(1, 8))
                     ->setImageCover($coverImageUrl);
 
