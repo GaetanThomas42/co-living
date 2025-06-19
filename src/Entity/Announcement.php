@@ -159,7 +159,7 @@ class Announcement
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->services = new Aypo fixrrayCollection();
+        $this->services = new ArrayCollection();
         $this->equipments = new ArrayCollection();
         $this->reservations = new ArrayCollection();
     }
