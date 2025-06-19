@@ -253,10 +253,155 @@ class AppFixtures extends Fixture
             'Zone touristique'
         ];
 
-        $announcements = [];
+        $frenchAddresses = [
+    [
+        'address' => '10 Rue de Rivoli',
+        'city' => 'Paris',
+        'zipcode' => '75004',
+        'latitude' => 48.8556,
+        'longitude' => 2.3608,
+    ],
+    [
+        'address' => '20 Place Bellecour',
+        'city' => 'Lyon',
+        'zipcode' => '69002',
+        'latitude' => 45.7578,
+        'longitude' => 4.8320,
+    ],
+    [
+        'address' => '1 La Canebière',
+        'city' => 'Marseille',
+        'zipcode' => '13001',
+        'latitude' => 43.2965,
+        'longitude' => 5.3752,
+    ],
+    [
+        'address' => '15 Rue Alsace Lorraine',
+        'city' => 'Toulouse',
+        'zipcode' => '31000',
+        'latitude' => 43.6043,
+        'longitude' => 1.4437,
+    ],
+    [
+        'address' => '5 Promenade des Anglais',
+        'city' => 'Nice',
+        'zipcode' => '06000',
+        'latitude' => 43.6959,
+        'longitude' => 7.2652,
+    ],
+    [
+        'address' => '4 Rue de Strasbourg',
+        'city' => 'Nantes',
+        'zipcode' => '44000',
+        'latitude' => 47.2173,
+        'longitude' => -1.5532,
+    ],
+    [
+        'address' => '8 Cours Pasteur',
+        'city' => 'Bordeaux',
+        'zipcode' => '33000',
+        'latitude' => 44.8375,
+        'longitude' => -0.5792,
+    ],
+    [
+        'address' => '12 Place Kléber',
+        'city' => 'Strasbourg',
+        'zipcode' => '67000',
+        'latitude' => 48.5839,
+        'longitude' => 7.7455,
+    ],
+    [
+        'address' => '6 Avenue Jean Médecin',
+        'city' => 'Nice',
+        'zipcode' => '06000',
+        'latitude' => 43.7015,
+        'longitude' => 7.2651,
+    ],
+    [
+        'address' => '25 Rue Sainte-Catherine',
+        'city' => 'Bordeaux',
+        'zipcode' => '33000',
+        'latitude' => 44.8386,
+        'longitude' => -0.5790,
+    ],
+    [
+        'address' => '3 Place du Capitole',
+        'city' => 'Toulouse',
+        'zipcode' => '31000',
+        'latitude' => 43.6045,
+        'longitude' => 1.4440,
+    ],
+    [
+        'address' => '9 Boulevard Haussmann',
+        'city' => 'Paris',
+        'zipcode' => '75009',
+        'latitude' => 48.8738,
+        'longitude' => 2.3320,
+    ],
+    [
+        'address' => '22 Avenue Foch',
+        'city' => 'Lyon',
+        'zipcode' => '69006',
+        'latitude' => 45.7680,
+        'longitude' => 4.8497,
+    ],
+    [
+        'address' => '13 Rue de la République',
+        'city' => 'Marseille',
+        'zipcode' => '13001',
+        'latitude' => 43.2968,
+        'longitude' => 5.3743,
+    ],
+    [
+        'address' => '2 Rue des Halles',
+        'city' => 'Paris',
+        'zipcode' => '75001',
+        'latitude' => 48.8610,
+        'longitude' => 2.3469,
+    ],
+    [
+        'address' => '17 Rue Crébillon',
+        'city' => 'Nantes',
+        'zipcode' => '44000',
+        'latitude' => 47.2179,
+        'longitude' => -1.5562,
+    ],
+    [
+        'address' => '11 Rue du Vieux Marché aux Poissons',
+        'city' => 'Strasbourg',
+        'zipcode' => '67000',
+        'latitude' => 48.5820,
+        'longitude' => 7.7482,
+    ],
+    [
+        'address' => '33 Rue Esquermoise',
+        'city' => 'Lille',
+        'zipcode' => '59800',
+        'latitude' => 50.6371,
+        'longitude' => 3.0635,
+    ],
+    [
+        'address' => '7 Place du Ralliement',
+        'city' => 'Angers',
+        'zipcode' => '49100',
+        'latitude' => 47.4722,
+        'longitude' => -0.5552,
+    ],
+    [
+        'address' => '9 Rue Léon Gambetta',
+        'city' => 'Lille',
+        'zipcode' => '59000',
+        'latitude' => 50.6318,
+        'longitude' => 3.0575,
+    ],
+];
+
+  $announcements = [];
         foreach ($owners as $owner) {
             $count = rand(2, 4);
             for ($i = 0; $i < $count; $i++) {
+$loc = $frenchAddresses[array_rand($frenchAddresses)];
+
                 $ann = new Announcement();
                 $title = $faker->randomElement($announcementTitles);
                 $locationType = $faker->randomElement($locationTypes);
@@ -278,11 +423,11 @@ class AppFixtures extends Fixture
                 $ann->setOwner($owner)
                     ->setTitle($title)
                     ->setDescription($faker->randomElement($descriptions))
-                    ->setAddress($faker->address())
-                    ->setCity($famousCities[mt_rand(0, count($famousCities) - 1)])
-                    ->setZipcode($faker->postcode())
-                    ->setLattitude($faker->latitude(41, 51))
-                    ->setLongitude($faker->longitude(-5, 9))
+                       ->setAddress($loc['address'])
+    ->setCity($loc['city'])
+    ->setZipcode($loc['zipcode'])
+    ->setLattitude($loc['latitude'])
+    ->setLongitude($loc['longitude'])
                     ->setDailyPrice($faker->randomFloat(2, 10, 100))
                     ->setMaxClient(rand(1, 8))
                     ->setImageCover($coverImageUrl);

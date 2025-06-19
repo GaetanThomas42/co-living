@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\AnnouncementRepository;
+use App\State\AnnouncementPostProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -18,19 +25,56 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: AnnouncementRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(normalizationContext: ['groups' => ['announcement:read']]),
-        new Get(normalizationContext: ['groups' => ['announcement:read:item']]),
+        new GetCollection(
+            normalizationContext: ['groups' => ['announcement:read']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['announcement:read:item']]
+        ),
         new Post(
+            processor: AnnouncementPostProcessor::class,
+            denormalizationContext: ['groups' => ['announcement:write']],
             normalizationContext: ['groups' => ['announcement:read:item']],
-            denormalizationContext: ['groups' => ['announcement:write']]
+            security: "is_granted('ROLE_USER')"
         ),
         new Put(
+            denormalizationContext: ['groups' => ['announcement:write']],
             normalizationContext: ['groups' => ['announcement:read:item']],
-            denormalizationContext: ['groups' => ['announcement:write']]
+            security: "object.getOwner() == user"
         ),
-        new Delete()
+        new Patch(
+            denormalizationContext: ['groups' => ['announcement:write']],
+            normalizationContext: ['groups' => ['announcement:read:item']],
+            security: "object.getOwner() == user"
+        ),
+        new Delete(
+            security: "object.getOwner() == user"
+        )
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'title' => 'partial',
+    'city' => 'partial',
+    'zipcode' => 'exact',
+    'address' => 'partial',
+    'owner.id' => 'exact',
+    'services.id' => 'exact',
+    'equipment.id' => 'exact',
+])]
+#[ApiFilter(RangeFilter::class, properties: [
+    'dailyPrice',
+    'maxClient'
+])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'id',
+    'dailyPrice',
+    'maxClient',
+])]
+#[ApiFilter(ExistsFilter::class, properties: [
+    'images',
+    'services',
+    'equipment'
+])]
 class Announcement
 {
     #[ORM\Id]

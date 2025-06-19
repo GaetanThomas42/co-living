@@ -2,6 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
@@ -19,19 +24,52 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(normalizationContext: ['groups' => ['reservation:read']]),
-        new Get(normalizationContext: ['groups' => ['reservation:read:item']]),
+        new GetCollection(
+            normalizationContext: ['groups' => ['reservation:read']],
+            security: "is_granted('ROLE_USER')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['reservation:read:item']],
+            security: "object.getClient() == user"
+        ),
         new Post(
             normalizationContext: ['groups' => ['reservation:read:item']],
-            denormalizationContext: ['groups' => ['reservation:write']]
+            denormalizationContext: ['groups' => ['reservation:write']],
+            security: "is_granted('ROLE_USER')"
         ),
         new Put(
             normalizationContext: ['groups' => ['reservation:read:item']],
-            denormalizationContext: ['groups' => ['reservation:write']]
+            denormalizationContext: ['groups' => ['reservation:write']],
+            security: "object.getClient() == user"
         ),
-        new Delete()
+        new Delete(
+            security: "object.getClient() == user"
+        )
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'status' => 'exact',
+    'client.id' => 'exact',
+    'announcement.id' => 'exact'
+])]
+#[ApiFilter(RangeFilter::class, properties: [
+    'totalAmount',
+    'startDate',
+    'endDate',
+    'created_at'
+])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'id',
+    'startDate',
+    'endDate',
+    'totalAmount',
+    'created_at',
+    'status'
+])]
+#[ApiFilter(ExistsFilter::class, properties: [
+    'announcement',
+    'client'
+])]
 class Reservation
 {
     #[ORM\Id]

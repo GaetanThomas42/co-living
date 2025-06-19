@@ -8,24 +8,44 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use App\Controller\UserController;
+use App\State\UserPasswordHasherProcessor;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(
+            name: 'Me',
+            uriTemplate: '/me',
+            controller: UserController::class,
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['user:write']],
+            normalizationContext: ['groups' => ['user:read']],
+            processor: UserPasswordHasherProcessor::class,
+            security: "is_granted('PUBLIC_ACCESS')"
+        )
+        ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
+    #[Groups(['user:read','announcement:read','announcement:read:item','reservation:read:item','reservation:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['announcement:read:item','announcement:read','reservation:read:item','reservation:read'])]
+    #[Groups(['user:read','user:write','announcement:read:item','announcement:read','reservation:read:item','reservation:read'])]
     private ?string $email = null;
 
     /**
@@ -39,27 +59,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Groups(['announcement:read:item'])]
+    #[Groups(['user:write'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
+    #[Groups(['user:read','user:write','announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
+    #[Groups(['user:read','user:write','announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['announcement:read:item','reservation:read:item','reservation:read'])]
+    #[Groups(['user:read','user:write','announcement:read:item','reservation:read:item','reservation:read'])]
     private ?string $billingAddress = null;
 
     #[ORM\Column]
-    // #[Groups([])]
-    private ?bool $isVerified = null;
+    #[Groups(['user:read'])]
+    private bool $isVerified = false;
 
     #[ORM\Column]
-    // #[Groups([])]
+    #[Groups(['user:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     /**
@@ -88,6 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $announcements;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['user:read','user:write','announcement:read:item','reservation:read:item','reservation:read'])]
     private ?\DateTime $birthDate = null;
 
     public function __construct()
@@ -96,6 +117,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sendMessages = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->announcements = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+
     }
 
     public function getId(): ?int
