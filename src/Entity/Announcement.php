@@ -147,7 +147,7 @@ class Announcement
      */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'announcement')]
     #[Groups(['announcement:read', 'announcement:read:item'])]
-    private Collection $equipment;
+    private Collection $equipments;
 
     /**
      * @var Collection<int, Reservation>
@@ -159,8 +159,8 @@ class Announcement
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->services = new ArrayCollection();
-        $this->equipment = new ArrayCollection();
+        $this->services = new Aypo fixrrayCollection();
+        $this->equipments = new ArrayCollection();
         $this->reservations = new ArrayCollection();
     }
 
@@ -349,15 +349,15 @@ class Announcement
     /**
      * @return Collection<int, Equipment>
      */
-    public function getEquipment(): Collection
+    public function getEquipments(): Collection
     {
-        return $this->equipment;
+        return $this->equipments;
     }
 
     public function addEquipment(Equipment $equipment): static
     {
-        if (!$this->equipment->contains($equipment)) {
-            $this->equipment->add($equipment);
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments->add($equipment);
             $equipment->addAnnouncement($this);
         }
 
@@ -366,7 +366,7 @@ class Announcement
 
     public function removeEquipment(Equipment $equipment): static
     {
-        if ($this->equipment->removeElement($equipment)) {
+        if ($this->equipments->removeElement($equipment)) {
             $equipment->removeAnnouncement($this);
         }
 
