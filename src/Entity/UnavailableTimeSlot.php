@@ -25,6 +25,9 @@ class UnavailableTimeSlot
     #[ORM\ManyToOne(inversedBy: 'unavailabletimeslots')]
     private ?Reservation $Unavailableslots = null;
 
+    #[ORM\ManyToOne(inversedBy: 'unavailibities')]
+    private ?Announcement $announcement = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class UnavailableTimeSlot
     public function setUnavailableslots(?Reservation $Unavailableslots): static
     {
         $this->Unavailableslots = $Unavailableslots;
+
+        return $this;
+    }
+
+    public function getAnnouncement(): ?Announcement
+    {
+        return $this->announcement;
+    }
+
+    public function setAnnouncement(?Announcement $announcement): static
+    {
+        $this->announcement = $announcement;
 
         return $this;
     }

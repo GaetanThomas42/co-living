@@ -156,12 +156,19 @@ class Announcement
     #[Groups(['announcement:read:item'])]
     private Collection $reservations;
 
+    /**
+     * @var Collection<int, UnavailableTimeSlot>
+     */
+    #[ORM\OneToMany(targetEntity: UnavailableTimeSlot::class, mappedBy: 'announcement')]
+    private Collection $unavailibities;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->equipment = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->unavailibities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,6 +416,36 @@ class Announcement
             // set the owning side to null (unless already changed)
             if ($reservation->getAnnouncement() === $this) {
                 $reservation->setAnnouncement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UnavailableTimeSlot>
+     */
+    public function getUnavailibities(): Collection
+    {
+        return $this->unavailibities;
+    }
+
+    public function addUnavailibity(UnavailableTimeSlot $unavailibity): static
+    {
+        if (!$this->unavailibities->contains($unavailibity)) {
+            $this->unavailibities->add($unavailibity);
+            $unavailibity->setAnnouncement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnavailibity(UnavailableTimeSlot $unavailibity): static
+    {
+        if ($this->unavailibities->removeElement($unavailibity)) {
+            // set the owning side to null (unless already changed)
+            if ($unavailibity->getAnnouncement() === $this) {
+                $unavailibity->setAnnouncement(null);
             }
         }
 
