@@ -20,6 +20,6 @@ final class UserController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        return new JsonResponse($user ? $this->normalizer->normalize($user, null, ["groups" => ["user:read"]]) : ['error' => 'User not found']);
+        return new JsonResponse(!$user ? ['error' => 'User not found'] : $this->normalizer->normalize($user, null, ["groups" => ["user:read"]]) );
     }
 }
