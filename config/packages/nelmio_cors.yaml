@@ -1,12 +1,11 @@
 nelmio_cors:
     defaults:
         allow_credentials: true
-        origin_regex: false  # Changé à false
-        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
-        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
-        allow_headers: ['Content-Type', 'Authorization', 'X-Requested-With']  
-        expose_headers: ['Authorization', 'Content-Type','Links'] 
-        max_age: 3600
-
+        allow_origin: ['*']  # Remplace * par ton domaine si tu veux être plus restrictif
+        allow_headers: ['Authorization', 'Content-Type', 'X-Requested-With']
+        allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     paths:
-        '^/': null
+        '^/api/':  # Applique cette règle uniquement aux routes API
+            allow_origin: ['*']  # Remplace * par ton frontend si nécessaire
+            allow_headers: ['Authorization', 'Content-Type', 'X-Requested-With']
+

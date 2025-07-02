@@ -19,7 +19,8 @@ final class UserController extends AbstractController
     public function __invoke(): JsonResponse
     {
         /** @var User $user */
-        $user = $this->getUser();
+         $user = $this->getUser();
         return new JsonResponse(!$user ? ['error' => 'User not found'] : $this->normalizer->normalize($user, null, ["groups" => ["user:read"]]), !$user ? 401:200);
-    }
+    
+}
 }

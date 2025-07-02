@@ -24,8 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             name: 'Me',
             uriTemplate: '/me',
             controller: UserController::class,
-            security: "is_granted('IS_AUTHENTICATED_FULLY')",
-            
+	    security: "isGranted('IS_AUTHENTICATED_FULLY')"
         ),
         new Post(
             denormalizationContext: ['groups' => ['user:write']],
