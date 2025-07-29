@@ -79,11 +79,11 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item', 'announcement:read', 'reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'announcement:read', 'reservation:read','reservation:write', 'reservation:read:item'])]
     private ?\DateTimeImmutable $startDate = null;
 
     #[ORM\Column]
-    #[Groups(['announcement:read:item', 'reservation:read', 'reservation:read:item'])]
+    #[Groups(['announcement:read:item', 'reservation:read','reservation:write', 'reservation:read:item'])]
     private ?\DateTimeImmutable $endDate = null;
 
     #[ORM\Column(length: 100)]
@@ -105,7 +105,7 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['reservation:read:item', 'reservation:read'])]
+    #[Groups(['reservation:read:item', 'reservation:read','reservation:write'])]
     private ?Announcement $announcement = null;
 
     /**
